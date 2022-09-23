@@ -1,0 +1,16 @@
+body {
+    height: 96vh;
+    overflow-y: hidden;
+}
+
+#canvas {
+    height: 80vh;
+    width: 80vh;
+    margin: auto;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
