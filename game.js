@@ -23,7 +23,16 @@ function draw() {
         grid[i].show();
     }
     current.visited = true;
-    current.checkNeighbors();
+    // get random unvisited neighbor
+    let next = current.checkNeighbors();
+    if (next) {
+        next.visited = true;
+
+        removeWalls(current, next);
+
+
+        current = next;
+    }
 }
 
 
@@ -34,8 +43,27 @@ window.requestAnimationFrame(animate);
 let lastRenderTime = 0;
 function animate(currentTime) {
     window.requestAnimationFrame(animate);
-    const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
-    if (secondsSinceLastRender < 1 / animate) return;
+    const secondsSinceLastRender = (currentTime - lastRenderTime);
+    if (secondsSinceLastRender < 70) return;
     lastRenderTime = currentTime;
     draw();
+}
+
+function removeWalls(a,b) {
+    let x = a.i - b.i; // difference between a and b cell in rows
+    if (x === 1) {
+        a.walls[3] = false;
+        b.walls[1] = false;
+    } else if (x === -1) {
+        a.walls[1] = false;
+        b.walls[3] = false;
+    }
+    let y = a.j - b.j;
+    if (y === 1) {
+        a.walls[0] = false;
+        b.walls[2] = false;
+    } else if (y === -1) {
+        a.walls[2] = false;
+        b.walls[0] = false;
+    }
 }
