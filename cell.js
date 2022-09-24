@@ -89,4 +89,14 @@ class Cell {
             return undefined;
         }
     }
+
+    highlight() {
+        _ctx.save();
+        let x = this.i * w;
+        let y = this.j * w;
+        _ctx.save();
+        _ctx.fillStyle = '#dba8ec';
+        _ctx.fillRect(x, y, w, w);
+        _ctx.restore();
+    }
 }

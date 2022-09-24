@@ -4,6 +4,8 @@ let w = 40;
 let grid = [];
 let current; // keep track of the current cell
 
+let stack = [];
+
 function setUp() {
     _cols = Math.floor(_canvas.width / w);
     _rows = Math.floor(_canvas.height / w);
@@ -23,15 +25,19 @@ function draw() {
         grid[i].show();
     }
     current.visited = true;
+    current.highlight();
     // get random unvisited neighbor
     let next = current.checkNeighbors();
     if (next) {
         next.visited = true;
 
+        stack.push(current);
+
         removeWalls(current, next);
 
-
         current = next;
+    } else if (stack.length > 0) { // stuck
+        current = stack.pop();
     }
 }
 
@@ -44,7 +50,7 @@ let lastRenderTime = 0;
 function animate(currentTime) {
     window.requestAnimationFrame(animate);
     const secondsSinceLastRender = (currentTime - lastRenderTime);
-    if (secondsSinceLastRender < 70) return;
+    if (secondsSinceLastRender < 50) return;
     lastRenderTime = currentTime;
     draw();
 }
